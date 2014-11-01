@@ -595,6 +595,8 @@ class Subprocess(object):
             elif state == ProcessStates.BACKOFF:
                 if self.backoff <= self.config.startretries:
                     if now > self.delay:
+                        # Before restarting we apply a pause
+                        time.sleep(self.config.restartpause)
                         # BACKOFF -> STARTING
                         self.spawn()
 
